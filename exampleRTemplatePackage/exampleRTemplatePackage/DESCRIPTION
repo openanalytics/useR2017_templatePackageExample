@@ -1,0 +1,22 @@
+Package: exampleRTemplatePackage
+Type: Package
+Title: Example of R template package
+Version: 0.0-1
+Date: 2017-01-15
+Author: Laure Cougnaud, Kirsten van Hoorde
+Maintainer: Laure Cougnaud <laure.cougnaud@openanalytics.eu>, Kirsten van
+    Hoorde<kirsten.vanhoorde@openanalytics.eu>
+Description: Example of R template package: R package containing report templates
+License: GPL-3
+Imports:
+Suggests:
+    plotly,
+	ggplot2,
+	rbokeh,
+	oaReporting,
+	htmltools,
+	oaColors,
+	DT,
+	pander,
+	corrplot
+RoxygenNote: 6.0.1

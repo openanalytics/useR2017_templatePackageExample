@@ -1,0 +1,58 @@
+
+```{r pairwiseComparisonChild-inputParameters-{{iPC}}}
+
+	pairwiseComparisonVariablesDescription <- pairwiseComparisonVariablesDescriptions[{{iPC}}] # description
+	
+	pairwiseComparisonVariable <- pairwiseComparisonVariables[, {{iPC}}] # variables to compare
+		
+	colorVariable <- if(exists("pairwiseComparisonPlotColorVariable"))
+		pairwiseComparisonPlotColorVariable # variable used for coloring
+	
+	if(!exists("typePlot"))	typePlot <- "rbokeh" # type plot
+	
+	message("Creation of pairwise comparison plot of ", pairwiseComparisonVariablesDescription, ".")
+
+```
+
+## Pairwise comparison of `r pairwiseComparisonVariablesDescription`
+
+```{r pairwiseComparisonChild-correlationTest-{{iPC}}}
+
+	resCorTest <- cor.test(
+		x = dataset[, pairwiseComparisonVariable[1]], 
+		y = dataset[, pairwiseComparisonVariable[2]]
+	)
+
+```
+
+The **_Pearson_ correlation** between the
+`r pairwiseComparisonVariablesDescription` is:
+**`r round(resCorTest$estimate, 2)`** (p-value =
+`r format(resCorTest$p.value, scientific = TRUE, digits = 2)`).
+
+```{r pairwiseComparisonChild-extractData-{{iPC}}}
+	
+	# color palette
+	library(oaColors)
+	colorPalette <- oaPalette(
+		numColors = ifelse(!is.null(colorVariable), nlevels(dataset[, colorVariable]), 1))
+	names(colorPalette) <- levels(dataset[, colorVariable])
+
+	figCaption <-  paste("Pairwise comparison of", pairwiseComparisonVariablesDescription)
+	
+```
+
+Figure \@ref(`r paste0("fig:pairwiseComparisonChild-plots-", {{iPC}})`) shows
+the pairwise comparison plot of `r pairwiseComparisonVariablesDescription`.
+
+```{r pairwiseComparisonChild-plots-{{iPC}}, fig.cap = figCaption, results = ifelse(typePlot %in% c("rbokeh", "plotly"), 'markup', "asis")}
+					
+	pairwiseComparisonPlot(
+		dataset = dataset, 
+		variables = pairwiseComparisonVariable,
+		description = pairwiseComparisonVariablesDescription,
+		colorVariable = colorVariable, 
+		colorPalette = colorPalette,
+		typePlot = typePlot)
+	
+```

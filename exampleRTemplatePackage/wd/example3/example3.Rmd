@@ -1,0 +1,122 @@
+---
+title: "Example template, master file"
+author: "Laure Cougnaud, Kirsten Van Hoorde, OpenAnalytics"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  bookdown::html_document2:
+    css: css/custom.css
+    toc: true
+    toc_depth: 4
+    number_sections: true
+    toc_float:
+      collapsed: true
+---
+
+
+<!---
+Copy this template in your working directory (where you want to run the report).
+You can make use of the function getPathStartTemplate(). 
+
+This template can be used as a starting document for any new dataset
+-->
+
+```{r runDocument, echo = FALSE, eval = FALSE}
+
+	## This chunk contains code to render the document.
+
+	rm(list = ls())
+	detach('package:exampleRTemplatePackage', unload = TRUE);library(exampleReportingPackage)
+	system.time(rmarkdown::render("example3.Rmd"))
+	
+```
+
+```{r inputOutputPath, echo = FALSE}
+
+	# working directory as output path
+#	outputPath <- file.path(getwd(), "")
+	
+	# different folder as output path
+	outputPath <- file.path(getwd(), "output/")
+	
+	if (!file.exists(outputPath)) dir.create(outputPath, recursive = TRUE)
+	
+	# When working on a windows computer it should be "/Users/..." instead of "C:/Users/..."
+	if(.Platform$OS.type == "windows") outputPath <- paste0("/", paste(unlist(strsplit(outputPath, split = "/"))[-1], collapse = "/"),"/")
+	
+```
+
+```{r optionsChunk, echo = FALSE, message = FALSE, warning=FALSE}
+
+	## Chunk with options for knitr. This chunk should not be modified.
+
+	knitr::opts_chunk$set(
+		eval = TRUE,
+		echo = FALSE, 
+		message = FALSE,
+		cache = FALSE,
+		warning = FALSE,
+		error = FALSE,
+		comment = "#",
+	  	tidy = FALSE,
+		collapse = TRUE,
+		results = "asis",
+		root.dir = outputPath)
+	knitr::opts_knit$set(
+		root.dir = getwd())
+	
+	options(warn = 1, width = 200)
+	
+```
+
+```{r requiredLibraries}
+
+	library(bookdown)
+
+```
+
+<!-- Loading the package with the child templates and functions for the creation of this report. -->
+
+```{r libraries}
+
+	library(knitr)
+	
+	# load R template package
+	library(exampleRTemplatePackage)
+
+```
+
+```{r inputParameters-data}
+
+	# load data
+	library(mlbench)
+	data(PimaIndiansDiabetes)
+	
+	# input parameters - data
+	dataset <- PimaIndiansDiabetes
+	variables <- grep("diabetes", colnames(dataset), 
+		invert = TRUE, value = TRUE)
+	covariate <- "diabetes"
+	
+```
+
+```{r inputParameters-analysis}
+
+    boxPlot <- TRUE
+    
+	pairwiseComparisonPlot <- TRUE
+    pairwiseComparisonPlotColorVariable <- "diabetes" 
+	typePlot <- "rbokeh"
+	
+	includeLda <- TRUE
+	covariateLda <- covariate
+	dimensionsLda <- 4
+
+```
+
+<!-- call/run child template -->
+```{r runAnalysis, child = getPathTemplate("exampleTemplate_child.Rmd")}
+
+```
+
+<!-- call the child template with the analysis, contained in the `exampleReportingPackage` package -->
+
