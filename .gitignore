@@ -1,0 +1,6 @@
+*.Rcheck
+*.tar.gz
+*.RData
+exampleRTemplatePackage/wd/*/*.html
+exampleRTemplatePackage/wd/*/output
+exampleRTemplatePackage/wd/*/css

@@ -1,0 +1,58 @@
+<!---
+INPUT PARAMETERS
+
+-->
+
+```{r histogramChild-inputParameters-{{iH}}}
+
+    histogramVariableFull <- histogramVariablesFull[{{iHST}}]
+    histogramVariableDescription <- histogramVariablesDescription[{{iHST}}]
+
+    # color palette
+    library(oaColors)
+    colorPaletteH <- oaPalette(
+        numColors = nlevels(dataset[, covariate]), 1)
+    names(colorPaletteH) <- levels(dataset[, covariate])
+    
+	message("Creation of histogram of ", histogramVariableDescription, ".")  
+  
+```
+
+## Histogram of `r histogramVariableDescription`
+
+
+```{r histogramChild-figCaption-{{iH}}}
+	
+	figCaption <-  paste("Histogram of", histogramVariableDescription)
+	
+```
+
+Figure \@ref(`r paste0("fig:histogramChild-plots-", {{iHST}})`) show the
+histogram of the variable: `r histogramVariableDescription` for each
+`r covariate` class.
+
+```{r histogramChild-plots-{{iH}}, fig.cap = figCaption}
+			
+    suppressPackageStartupMessages(library(ggplot2))
+    h <- ggplot(dataset, aes_string(x = histogramVariableFull, fill = covariate)) +
+    	scale_color_manual(colorPaletteH) +
+    	geom_histogram(alpha = 0.5) + geom_density(alpha = 0.8) +
+		theme_bw()
+	
+    suppressPackageStartupMessages(library(plotly))
+    ggplotly(h)
+	
+```
+
+```{r testDifferenceBetweenDistributions-{{iH}}}
+
+	# test difference beyween moyennes
+	resKruskalTest <- kruskal.test(x = dataset[, histogramVariableFull], g = dataset[, covariate])
+	resKruskalTestPVal <- resKruskalTest$p.value
+
+```
+
+The distributions of `r histogramVariableFull` is `r ifelse(resKruskalTest$p.value < 0.05, "different", "not different")`
+in at least one of the `r covariate` group (_Kruskal-Wallis_ test: p-value =
+`r format(resKruskalTest$p.value, scientific = TRUE, digits = 2)`
+`r ifelse(resKruskalTest$p.value < 0.05, "<", ">=")` 0.05).

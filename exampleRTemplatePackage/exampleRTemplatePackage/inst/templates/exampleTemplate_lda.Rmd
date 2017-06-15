@@ -1,0 +1,79 @@
+
+```{r ldaChild-inputParameters}
+
+    message(". Section linear discriminant analysis")
+
+	if(!exists("covariateLda"))	
+		stop("'The covariate used for the linear discriminant analysis should",
+			" be specified via the 'covariateLda' parameter'.")
+
+```
+
+The linear discriminant analysis of the dataset with the
+`r paste0("'", covariateLda, "'")` response (equation: \@ref(eq:ldaDataset)) is
+run with the `lda` function of the `MASS` package:
+
+```{r ldaChild-printEquation}
+cat("\\begin{equation}\n",
+covariateLda, "\\sim", 
+paste(colnames(dataset)[colnames(dataset) != covariateLda], collapse = " + "),
+"\n(\\#eq:ldaDataset)\n",
+"\\end{equation}\n" 
+)
+```
+
+```{r ldaChild-runLda}
+
+	message("Run lda")
+
+	library(MASS)
+	resLda <- lda(as.formula(paste(covariateLda, "~ .")), data = dataset)
+
+```
+
+```{r ldaChild-plotLda, fig.width = 7, fig.height = 7}
+
+	message("Plot lda")
+
+	# color palette for the covariate
+	colorPalette <- oaPalette(
+		numColors = nlevels(dataset[, covariateLda]))
+	names(colorPalette) <- levels(dataset[, covariateLda])
+	
+	# change color from hcl to hex
+	colorPaletteHex <- do.call(rgb, as.list(as.data.frame(t(col2rgb(colorPalette)/255))))
+	
+	# code html list in R (don't forget line break before the list!) with colors
+	cat("Following Figure shows the lda biplot, with the following palette:\n\n")
+	cat(
+		paste(paste0("* <font color='", colorPaletteHex,"'>", names(colorPalette), "</font>"),
+			collapse = "\n")
+	)
+		
+	# scatterplot of lda results
+	plot(resLda, dimen = 2,
+		col = colorPalette[dataset[, covariateLda]], cex = 0.4,
+		main = "Linear discriminant analysis"
+	)
+
+```
+
+```{r ldaChild-printDetailsLda}
+
+	message("Print details of lda results")
+
+	# extract details of the results of lda
+	resLdaDetails <- sapply(names(resLda), function(x) resLda[[x]], simplify = FALSE)
+	resLdaDetails <- resLdaDetails[sapply(resLdaDetails, length) > 0]
+	
+	# use pander table to print details (can use list as input)
+	library(pander)
+	# create drop-down box with details of the results
+	tmp <- collapseInHtml(
+		input = pander(resLdaDetails), 
+		id = "resultsLda", 
+		titleButton = "Details on the results of the linear discriminant analysis", 
+		type = "text", color = "#0e1e29", borderColor = "#0e1e29")
+
+
+```

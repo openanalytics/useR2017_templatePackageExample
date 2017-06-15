@@ -1,0 +1,265 @@
+
+
+```{r parametersChildDocument}
+
+	## required input parameters
+    message("Check required input parameters")
+
+	# check if all require input parameters are specified
+	variablesToSpecify <- c("dataset", "variables", "covariate")
+	inputParametersNotSpecified <- !sapply(variablesToSpecify, exists)
+	if(any(inputParametersNotSpecified))
+		stop("Please specify the ", toString(variablesToSpecify[inputParametersNotSpecified]), ".")
+
+	## optional input parameters, set to default value if not specified
+    if(!exists("boxPlot")) boxPlot <- TRUE
+    if(!exists("histogram")) histogram <- TRUE
+	if(!exists("pairwiseComparisonPlot") & length(variables) > 1) pairwiseComparisonPlot <- TRUE
+	if(!exists("includeLda") & length(variables) > 2) includeLda <- TRUE
+	if(!exists("typePlot"))	typePlot <- "rbokeh"
+	
+```
+
+```{r compareOutputpathWithWd}
+
+    message("Compare output path with working directory")
+
+	outputPathCompare <- paste0(getwd(), "/")
+	if(.Platform$OS.type == "windows") outputPathCompare <- paste0("/", paste(unlist(strsplit(outputPathCompare, split = "/"))[-1], collapse = "/"),"/")
+
+	differentWd <- outputPath != outputPathCompare
+	
+	if(differentWd) warning(paste0('The specified "outputPath" (i.e. ', outputPath,') is NOT the same \n as the current working directory (i.e. ', outputPathCompare, '). \n', 
+		'The graphs and objects will be saved in the "outputPath" location, \n while the report (and the css file) will be saved in the working directory.'))
+	
+```
+
+```{r copyCustomCssFile}
+
+    message("Copy css file from package")
+
+#	message("output path css: ", paste0(getwd(), "/css"))
+
+	if(!exists("personalCss")) personalCss <- FALSE
+	
+	if(!personalCss){
+		cssFile <- getPathFile("custom.css")
+		outputPathCss <- paste0(getwd(), "/css")
+		if(.Platform$OS.type == "windows") outputPathCss <- paste0("/", paste(unlist(strsplit(outputPathCss, split = "/"))[-1], collapse = "/"))
+		if (!file.exists(outputPathCss)) dir.create(outputPathCss, recursive = TRUE)
+		outputPathCss <- paste0(outputPathCss, "/")
+		copyFile <- file.copy(from = cssFile, to = outputPathCss, overwrite = TRUE)
+	}
+  
+    message(". Section Material and methods")
+
+```
+
+
+```{r outputDirectories}
+	
+	outputPathGraph <- paste0(outputPath, "graphs")
+	if (!file.exists(outputPathGraph)) dir.create(outputPathGraph, recursive = TRUE)
+	myGraphPath <- function(pathPlot){paste(outputPathGraph, pathPlot, sep = "/")}
+	
+	outputPathObjects <- paste0(outputPath, "objects")
+	if (!file.exists(outputPathObjects)) dir.create(outputPathObjects, recursive = TRUE)
+	myObjectPath <- function(pathObject){paste(outputPathObjects, pathObject, sep = "/")}
+
+```
+
+# Material and methods
+
+## Data
+
+The dataset contains `r nrow(dataset)` samples, `r length(variables)` variables:
+`r toString(variables)`
+and `r length(covariate)` covariate: `r toString(covariate)`.
+
+```{r detailsOfData}
+
+    message(".. Data table")
+
+	library(DT)
+	
+	datatable(dataset, 
+		options = list(
+		searching = TRUE,
+		pageLength = 10
+#		lengthMenu = c(5, 10, 15, 20)
+		),
+		rownames = FALSE
+	)
+	
+```
+
+## Summary of the data
+
+Tables below show overall statistics of `r toString(variables)` for:
+
+*  the entire dataset
+* the variables for each subset of the `r paste0("'", covariate, "'")`
+  covariate:
+`r paste(paste("    +", levels(dataset[,covariate])), collapse = "\n")`
+
+<!-- Tables with pander in for loop. -->
+
+```{r summaryDataPander}
+
+  message(".. Summary of the data via pander")
+
+  library(pander)
+  panderOptions('knitr.auto.asis', FALSE)
+  for(subData in c("all", levels(dataset[,covariate]))){
+    
+    if(subData == "all"){
+      cat("\n### All", tolower(covariate), "\n\n")
+      pander(summary(dataset[,variables]), caption = paste("Summary for all", tolower(covariate)))
+    }else{
+      cat("\n###", simpleCap(subData, onlyFirst = TRUE), "\n\n")
+      pander(summary(dataset[dataset[,covariate] == subData,variables]), 
+		caption = paste0("Summary for ", subData))
+    }
+    cat("\n\n")
+    
+  }
+
+```
+
+`r if(boxPlot)	"# Box plot"`
+
+```{r boxPlots-viaLoopOnChildDocumentInteger, eval = boxPlot}
+
+	## example of call of child documents within a loop
+	
+    message(". Section box plot - via child documents using integer")
+
+	locationBoxPlotDocument <- getPathTemplate("exampleTemplate_boxPlot.Rmd")
+	
+	# initialize the output
+	outputBoxPlotDocument  <- NULL
+	
+    # variable for which to print box plots
+    boxPlotVariables <- unique(dataset[,covariate]) 
+  
+	# loop across pairs of variables, with integer
+	for(iBP in seq(length(boxPlotVariables))){
+
+		# extract the code of the child, with variables within {{}} replaced
+		outputBoxPlotDocument <- c(outputBoxPlotDocument, 
+			knit_expand(locationBoxPlotDocument))
+		
+	}
+	
+	# run the document
+	cat(knit(text = unlist(paste(outputBoxPlotDocument, collapse = '\n')), quiet=TRUE))
+
+```
+
+`r if(boxPlot)	"# Histogram"`
+
+<!-- Via child documents using a character. -->
+
+Note: we removed the '.' from the character since otherwise bookdown does not
+return figure numbers.
+
+```{r histogram-viaLoopOnChildDocumentCharacter, eval = histogram}
+
+	## example of call of child documents within a loop
+	
+    message(". Section histogram - via child documents using character")
+
+	locationHistogramDocument <- getPathTemplate("exampleTemplate_histogram.Rmd")
+	
+	# initialize the output
+	outputHistogramDocument  <- NULL
+	
+    # variable for which to print histogram
+    histogramVariable <- gsub("\\.", " ", tolower(variables))
+    histogramVariablesFull <- variables
+    histogramVariablesDescription <- histogramVariable
+    names(histogramVariablesFull) <- names(histogramVariablesDescription) <- histogramVariable
+    
+	# loop across pairs of variables, with character
+	for(iH in histogramVariable){
+
+	    iHST <- paste0("'", iH, "'")
+	    
+		# extract the code of the child, with variables within {{}} replaced
+	    outputHistogramDocument <- c(outputHistogramDocument, 
+			knit_expand(locationHistogramDocument))
+		
+	}
+	
+	# run the document
+	cat(knit(text = unlist(paste(outputHistogramDocument, collapse = '\n')), quiet=TRUE))
+
+```
+
+`r if(pairwiseComparisonPlot)	"# Pairwise comparison plot"`
+
+`r if(pairwiseComparisonPlot) 
+	"## Summary\nFollowing Figure shows the correlation matrix of all variables contained in the data."`
+
+```{r pairwiseComparison-summary, eval = pairwiseComparisonPlot}
+
+	library(corrplot)
+	inputCorrplot <- cor(dataset[, variables])
+	corrplot.mixed(inputCorrplot, order = "hclust")
+
+```
+ 
+```{r pairwiseComparisonPlots-viaLoopOnChildDocumentInteger, eval = pairwiseComparisonPlot}
+ 
+    message(". Section pairwise comparison - via loop on plots")
+    message(".. Pairwise comparison plots via child documents using an integer")
+ 
+	## path child template
+    locationPairwiseComparisonPlotDocument <- 
+		getPathTemplate("exampleTemplate_pairwiseComparison.Rmd")
+ 
+	## input parameters
+
+    # matrix with different pairs of variables (columns)
+    pairwiseComparisonVariables <- combn(variables, 2)
+ 
+    # description of the comparison as text
+    pairwiseComparisonVariablesDescriptions <- apply(pairwiseComparisonVariables, 2, 
+		paste, collapse = " and ")
+     
+	## run the document
+
+    outputPairwiseComparisonPlotDocument  <- NULL # initialize the output
+     
+    # loop across pairs of variables, with character
+    for(iPC in 1:ncol(pairwiseComparisonVariables)){
+         
+        # extract the code of the child, with variables within {{}} replaced
+        outputPairwiseComparisonPlotDocument <- c(outputPairwiseComparisonPlotDocument, 
+            knit_expand(locationPairwiseComparisonPlotDocument))
+         
+    }
+     
+    # run the document
+    cat(knit(text = unlist(
+		paste(outputPairwiseComparisonPlotDocument, collapse = '\n')), 
+		quiet = TRUE)
+	)
+ 
+```
+
+`r if(includeLda)	"# Linear discriminant analysis"`
+`r if(includeLda)	knit_child(getPathTemplate("exampleTemplate_lda.Rmd"))`
+
+# Appendix
+
+## Used software
+
+```{r usedSoftware}
+		
+	printSessionInfoMarkdown()
+	
+```
+
+_Template developed by Kirsten Van Hoorde and Laure Cougnaud, Open Analytics._
+

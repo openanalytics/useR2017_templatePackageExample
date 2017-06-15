@@ -1,0 +1,41 @@
+<!---
+INPUT PARAMETERS
+-->
+
+```{r boxPlotsChild-inputParameters-{{iBP}}}
+
+    boxPlotVariable <- boxPlotVariables[{{iBP}}]
+
+    dataBoxPlot <- dataset[dataset[,covariate] == boxPlotVariable, ]
+  
+    colorBP <- if(exists("boxPlotColorVariables")) boxPlotColorVariables	else	NULL
+    
+	message("Creation of box plot of ", boxPlotVariable, ".")  
+  
+```
+
+## Boxplot of `r boxPlotVariable`
+
+
+```{r boxPlotChild-figCaption-{{iBP}}}
+	
+	figCaption <-  paste0("Box plot for ", tolower(covariate), ": ", boxPlotVariable)
+	
+```
+
+Figure \@ref(`r paste0("fig:boxPlotChild-plots-", {{iBP}})`) compares the
+distribution of `r toString(variables)` for `r boxPlotVariable`.
+
+```{r boxPlotChild-plots-{{iBP}}, fig.cap = figCaption}
+			
+    datasetBP <- dataBoxPlot[, variables, drop = FALSE]
+    datasetBP$ID <- 1:nrow(datasetBP)
+    
+    suppressPackageStartupMessages(library(reshape2))
+    mm = melt(datasetBP, id = "ID")
+	
+    suppressPackageStartupMessages(library(plotly))
+    p <- plot_ly(mm, y = ~value, color = ~variable, type = "box", colors = colorBP)
+    p
+	
+```
