@@ -26,7 +26,7 @@ This template can be used as a starting document for any new dataset
 
 	rm(list = ls())
 	detach('package:exampleRTemplatePackage', unload = TRUE);library(exampleReportingPackage)
-	system.time(rmarkdown::render("example3.Rmd"))
+	system.time(rmarkdown::render("example4.Rmd"))
 	
 ```
 
@@ -88,28 +88,31 @@ This template can be used as a starting document for any new dataset
 ```{r inputParameters-data}
 
 	# load data
-	library(mlbench)
-	data(PimaIndiansDiabetes)
+	data(state)
 	
 	# input parameters - data
-	dataset <- PimaIndiansDiabetes
-	variables <- grep("diabetes", colnames(dataset), 
+	dataset <- data.frame(state.x77, 
+		region = state.region, 
+		division = state.division
+	)
+	
+	variables <- grep("region|division", colnames(dataset), 
 		invert = TRUE, value = TRUE)
-	covariate <- "diabetes"
+	covariate <- "region"
 	
 ```
 
 ```{r inputParameters-analysis}
 
-    boxPlot <- TRUE
+    boxPlot <- FALSE
     
 	pairwiseComparisonPlot <- TRUE
-    pairwiseComparisonPlotColorVariable <- "diabetes" 
-	typePlot <- "ggplot2"
+    pairwiseComparisonPlotColorVariable <- covariate 
+	typePlot <- "baseR"
 	
 	includeLda <- TRUE
 	covariateLda <- covariate
-	dimensionsLda <- 4
+	dimensionsLda <- 3
 
 ```
 
