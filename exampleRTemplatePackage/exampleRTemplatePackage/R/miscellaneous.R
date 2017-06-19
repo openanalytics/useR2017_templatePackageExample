@@ -123,10 +123,14 @@ printSessionInfoMarkdown <- function(order = c("alphabetically", "original"), ad
 	# print the result into the console
 	cat(resFinal)
 	
-	if(addVersionBioconductor)
-		cat("* Bioconductor (BiocInstaller) version:", 
-				as.character(packageVersion("BiocInstaller")))
 	
+	if(addVersionBioconductor){
+		if(!requireNamespace("BiocInstaller", quietly = TRUE)){
+			cat("* Bioconductor (BiocInstaller) version:", 
+					as.character(packageVersion("BiocInstaller")))
+		}
+	}
+
 }
 
 #' get prefix for section in markdown ('#') for a number of level

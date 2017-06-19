@@ -11,6 +11,10 @@
 	if(any(inputParametersNotSpecified))
 		stop("Please specify the ", toString(variablesToSpecify[inputParametersNotSpecified]), ".")
 
+```
+	
+```{r parametersChildDocumentDefaults}
+			
 	## optional input parameters, set to default value if not specified
     if(!exists("boxPlot")) boxPlot <- TRUE
     if(!exists("histogram")) histogram <- TRUE

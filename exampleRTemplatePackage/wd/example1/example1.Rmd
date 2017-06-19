@@ -1,5 +1,5 @@
 ---
-title: "Example template, master file"
+title: "Example 1: Iris data (boxplot, histogram, pairwise comparison and linear discriminant analysis)"
 author: "Laure Cougnaud, Kirsten Van Hoorde, OpenAnalytics"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output: 
@@ -25,7 +25,7 @@ This template can be used as a starting document for any new dataset
 	## This chunk contains code to render the document.
 
 	rm(list = ls())
-	detach('package:exampleRTemplatePackage', unload = TRUE);library(exampleReportingPackage)
+	detach('package:exampleRTemplatePackage', unload = TRUE);library(exampleRTemplatePackage)
 	system.time(rmarkdown::render("example1.Rmd"))
 	
 ```

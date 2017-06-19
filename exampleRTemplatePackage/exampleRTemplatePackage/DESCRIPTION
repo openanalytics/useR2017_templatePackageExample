@@ -18,5 +18,6 @@ Suggests:
 	oaColors,
 	DT,
 	pander,
-	corrplot
+	corrplot,
+	BiocInstaller
 RoxygenNote: 6.0.1
