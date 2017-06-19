@@ -1,6 +1,0 @@
-^.*(aux|log|out|toc|RData|tex|html)$
-.gitignore
-inst/doc/parametersCheatSheetTranscriptomicsTemplates.xls
-template/markdownReport/examples/graphs
-template/markdownReport/examples/objects
-template/markdownReport/examples/css

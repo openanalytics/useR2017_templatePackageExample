@@ -34,8 +34,8 @@ getPathTemplate <- function(template, userType = c("user", "developer")){
 #' @return path of start template, from the installed \link{exampleRTemplatePackage} library
 #' @author Laure Cougnaud and Kirsten Van Hoorde
 #' @export
-getPathStartTemplate <- function(template){
-	system.file(file.path("templates/start", template), package = "exampleRTemplatePackage")
+getPathStartTemplate <- function(){
+	system.file("templates/start/startTemplate.Rmd", package = "exampleRTemplatePackage")
 }
 
 #' Function to create collapse with button in html output

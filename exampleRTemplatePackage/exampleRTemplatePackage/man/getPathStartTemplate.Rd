@@ -4,7 +4,7 @@
 \alias{getPathStartTemplate}
 \title{get path of start template contained in the \link{exampleRTemplatePackage} package}
 \usage{
-getPathStartTemplate(template)
+getPathStartTemplate()
 }
 \arguments{
 \item{template}{string, name of the template file}
