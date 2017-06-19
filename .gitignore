@@ -4,3 +4,4 @@
 exampleRTemplatePackage/wd/*/*.html
 exampleRTemplatePackage/wd/*/output
 exampleRTemplatePackage/wd/*/css
+exampleRTemplatePackage/wd/start/*.Rmd
