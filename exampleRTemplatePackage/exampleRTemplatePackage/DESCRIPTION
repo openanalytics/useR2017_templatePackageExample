@@ -2,7 +2,7 @@ Package: exampleRTemplatePackage
 Type: Package
 Title: Example of R template package
 Version: 0.0-1
-Date: 2017-01-15
+Date: 2017-06-23
 Author: Laure Cougnaud, Kirsten van Hoorde
 Maintainer: Laure Cougnaud <laure.cougnaud@openanalytics.eu>, Kirsten van
     Hoorde<kirsten.vanhoorde@openanalytics.eu>
