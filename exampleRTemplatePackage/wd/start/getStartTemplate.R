@@ -11,7 +11,7 @@ library(exampleRTemplatePackage)
 # Copy child template from the installed package to the working directory
 file.copy(from = getPathStartTemplate(), to = "./")
 
-# You can know work/modify the 'startTemplate' file directory towards
+# You can now work/modify the 'startTemplate' file directory towards
 # the parameters specific (input parameters/YAML header) of your dataset
 
 
