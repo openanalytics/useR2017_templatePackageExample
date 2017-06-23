@@ -1,8 +1,8 @@
-#' get path of a file contained in the \link{exampleRTemplatePackage} library
+#' get path of a file contained in the 'templates' folder of the \code{exampleRTemplatePackage} library
 #' @param file string, name of the template file
 #' @param userType string, use type, either:
 #' \itemize{
-#' \item{'user': }{the template path is extracted from the installed \link{exampleRTemplatePackage} library}
+#' \item{'user': }{the template path is extracted from the installed \code{exampleRTemplatePackage} library}
 #' \item{'developer:' }{the name of the template is returned, assuming that the developer works
 #' in the 'inst/templates' folder of the package directly
 #' }
@@ -29,9 +29,8 @@ getPathTemplate <- function(template, userType = c("user", "developer")){
 }
 
 
-#' get path of start template contained in the \link{exampleRTemplatePackage} package
-#' @param template string, name of the template file
-#' @return path of start template, from the installed \link{exampleRTemplatePackage} library
+#' get path of start template contained in the \code{exampleRTemplatePackage} package
+#' @return path of start template, from the installed \code{exampleRTemplatePackage} library
 #' @author Laure Cougnaud and Kirsten Van Hoorde
 #' @export
 getPathStartTemplate <- function(){

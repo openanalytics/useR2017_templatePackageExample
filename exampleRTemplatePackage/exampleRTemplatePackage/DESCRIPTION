@@ -6,12 +6,10 @@ Date: 2017-06-23
 Author: Laure Cougnaud, Kirsten van Hoorde
 Maintainer: Laure Cougnaud <laure.cougnaud@openanalytics.eu>, Kirsten van
     Hoorde<kirsten.vanhoorde@openanalytics.eu>
-Description: Example of R template package: R package containing report templates
+Description: exampleRTemplatePackage is an example of R template package, i.e. R package containing report templates.
 License: GPL-3
-Imports:
 Suggests:
     plotly,
-	ggplot2,
 	rbokeh,
 	oaReporting,
 	htmltools,
@@ -19,5 +17,6 @@ Suggests:
 	DT,
 	pander,
 	corrplot,
-	BiocInstaller
+	BiocInstaller,
+	ggplot2
 RoxygenNote: 6.0.1

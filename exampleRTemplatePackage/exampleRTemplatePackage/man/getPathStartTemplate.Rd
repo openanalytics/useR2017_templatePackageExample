@@ -2,18 +2,15 @@
 % Please edit documentation in R/miscellaneous.R
 \name{getPathStartTemplate}
 \alias{getPathStartTemplate}
-\title{get path of start template contained in the \link{exampleRTemplatePackage} package}
+\title{get path of start template contained in the \code{exampleRTemplatePackage} package}
 \usage{
 getPathStartTemplate()
 }
-\arguments{
-\item{template}{string, name of the template file}
-}
 \value{
-path of start template, from the installed \link{exampleRTemplatePackage} library
+path of start template, from the installed \code{exampleRTemplatePackage} library
 }
 \description{
-get path of start template contained in the \link{exampleRTemplatePackage} package
+get path of start template contained in the \code{exampleRTemplatePackage} package
 }
 \author{
 Laure Cougnaud and Kirsten Van Hoorde

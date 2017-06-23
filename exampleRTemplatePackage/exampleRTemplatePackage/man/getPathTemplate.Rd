@@ -11,7 +11,7 @@ getPathTemplate(template, userType = c("user", "developer"))
 
 \item{userType}{string, use type, either:
 \itemize{
-\item{'user': }{the template path is extracted from the installed \link{exampleRTemplatePackage} library}
+\item{'user': }{the template path is extracted from the installed \code{exampleRTemplatePackage} library}
 \item{'developer:' }{the name of the template is returned, assuming that the developer works
 in the 'inst/templates' folder of the package directly
 }

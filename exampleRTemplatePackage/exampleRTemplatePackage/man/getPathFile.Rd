@@ -2,7 +2,7 @@
 % Please edit documentation in R/miscellaneous.R
 \name{getPathFile}
 \alias{getPathFile}
-\title{get path of a file contained in the \link{exampleRTemplatePackage} library}
+\title{get path of a file contained in the 'templates' folder of the \code{exampleRTemplatePackage} library}
 \usage{
 getPathFile(file, userType = c("user", "developer"))
 }
@@ -11,7 +11,7 @@ getPathFile(file, userType = c("user", "developer"))
 
 \item{userType}{string, use type, either:
 \itemize{
-\item{'user': }{the template path is extracted from the installed \link{exampleRTemplatePackage} library}
+\item{'user': }{the template path is extracted from the installed \code{exampleRTemplatePackage} library}
 \item{'developer:' }{the name of the template is returned, assuming that the developer works
 in the 'inst/templates' folder of the package directly
 }
@@ -21,7 +21,7 @@ in the 'inst/templates' folder of the package directly
 string with output path(s) of the specified file
 }
 \description{
-get path of a file contained in the \link{exampleRTemplatePackage} library
+get path of a file contained in the 'templates' folder of the \code{exampleRTemplatePackage} library
 }
 \author{
 Laure Cougnaud and Kirsten Van Hoorde

@@ -10,8 +10,8 @@
 #' }
 #' @param typePlot string with type of the plot, either 'baseR' (\code{plot}),
 #' 'ggplot2', 'plotly', 'rbokeh'
-#' @import ggplot2
 #' @return no returned value, a plot is drawn in the current window
+#' @importFrom graphics plot
 #' @author Laure Cougnaud
 #' @export
 pairwiseComparisonPlot <- function(
@@ -35,7 +35,6 @@ pairwiseComparisonPlot <- function(
 		if(!requireNamespace("ggplot2", quietly = TRUE))
 			stop(paste("The package 'ggplot2' need to be loaded to create the plot."))
 		 
-		 library(ggplot2)
 		 aesStringsArgs <- c(
 			list(
 				x = variables[1],
