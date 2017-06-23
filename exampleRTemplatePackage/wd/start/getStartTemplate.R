@@ -1,4 +1,4 @@
-# This bit of code get the start template contained in the 'exampleRTemplatePackage'
+# This bit of code gets the path of the start template contained in the 'exampleRTemplatePackage'
 # and copy it to the working directory
 ###############################################################################
 
