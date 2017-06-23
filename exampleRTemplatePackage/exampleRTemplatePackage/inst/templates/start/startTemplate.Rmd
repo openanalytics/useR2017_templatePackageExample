@@ -132,7 +132,7 @@ This template can be used as a starting document for any new dataset
 	# 'typePlot': type of the plot, either 'baseR', 'ggplot2', 'rbokeh', or 'plotly'
 	typePlot <- "plotly"
 	
-	## input parameters for a linear discrimant analysis of the data
+	## input parameters for a linear discriminant analysis of the data
 	
 	# 'includeLda': boolean, should a linear discriminant analysis be executed on the data?
 	includeLda <- TRUE
