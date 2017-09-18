@@ -122,10 +122,10 @@ This template can be used as a starting document for any new dataset
     
 	## input parameter for pairwise comparison plot of each pair of variables
 
-	# 'pairwiseComparisonPlot': boolean, should each pair of 'variables'
+	# 'pairwiseComparison': boolean, should each pair of 'variables'
 	# be represented in paired scatterplot 
-	# (with the function 'pairwiseComparisonPlot' of the package)
-	pairwiseComparisonPlot <- TRUE
+	# (with the function 'pairwiseComparison' of the package)
+	pairwiseComparison <- TRUE
 	# 'pairwiseComparisonPlotColorVariable': column name of the dataset used to
 	# color the points in the scatterplot
     pairwiseComparisonPlotColorVariable <- "Species" 

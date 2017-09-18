@@ -1,0 +1,40 @@
+h1 {
+    font-weight: bold;
+    color:  #004d26
+   /* background-color: yellow */
+}
+h2 {
+    font-size: 180%;
+    color: #006633
+}
+h3 {
+    font-size: 150%;
+    color: #006666;
+   /* background-color: yellow */
+}
+h4 {
+    color: #0077b3;
+   /* background-color: yellow */
+}
+
+.shiny-progress-notification .progress {
+  margin: auto;
+}
+
+
+.navbar {
+  background-color: #e6fff3;
+   /* font-family: Arial; */
+  font-size: 30px;
+  color: #00331a;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+color:  #00331a;
+background-color: #ccffe6;
+}
+
+.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+margin-left: -15px;
+color: #00331a;
+font-size: 20px;
+}

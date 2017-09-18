@@ -7,7 +7,7 @@
 
 	# check if all require input parameters are specified
 	variablesToSpecify <- c("dataset", "variables", "covariate")
-	inputParametersNotSpecified <- !sapply(variablesToSpecify, exists)
+	inputParametersNotSpecified <- !sapply(variablesToSpecify, exists, where = environment())
 	if(any(inputParametersNotSpecified))
 		stop("Please specify the ", toString(variablesToSpecify[inputParametersNotSpecified]), ".")
 
@@ -16,11 +16,25 @@
 ```{r parametersChildDocumentDefaults}
 			
 	## optional input parameters, set to default value if not specified
-    if(!exists("boxPlot")) boxPlot <- TRUE
-    if(!exists("histogram")) histogram <- TRUE
-	if(!exists("pairwiseComparisonPlot") & length(variables) > 1) pairwiseComparisonPlot <- TRUE
-	if(!exists("includeLda") & length(variables) > 2) includeLda <- TRUE
-	if(!exists("typePlot"))	typePlot <- "rbokeh"
+    if(!exists("boxPlot", where = environment())) boxPlot <- TRUE
+    if(!exists("histogram", where = environment())) histogram <- TRUE
+	if(!exists("pairwiseComparison", where = environment())){
+		if(length(variables) > 1 & exists("covariate", where = environment())){
+			pairwiseComparison <- TRUE
+		}else	pairwiseComparison <- FALSE
+	}
+	if(length(variables) <= 1) pairwiseComparison <- FALSE
+	if(pairwiseComparison & !exists("pairwiseComparisonPlotColorVariable", where = environment()))
+		pairwiseComparisonPlotColorVariable <- covariate
+	
+	if(!exists("includeLda", where = environment())){
+		if(length(variables) > 2 & exists("covariate", where = environment())){
+			includeLda <- TRUE
+		}else includeLda <- FALSE
+	}
+	if(length(variables) <= 2)	includeLda <- FALSE
+	if(includeLda & !exists("covariateLda", where = environment())) covariateLda <- covariate
+	if(!exists("typePlot", where = environment()))	typePlot <- "rbokeh"
 	
 ```
 
@@ -31,10 +45,10 @@
 	outputPathCompare <- paste0(getwd(), "/")
 	if(.Platform$OS.type == "windows") outputPathCompare <- paste0("/", paste(unlist(strsplit(outputPathCompare, split = "/"))[-1], collapse = "/"),"/")
 
-	differentWd <- outputPath != outputPathCompare
-	
-	if(differentWd) warning(paste0('The specified "outputPath" (i.e. ', outputPath,') is NOT the same \n as the current working directory (i.e. ', outputPathCompare, '). \n', 
-		'The graphs and objects will be saved in the "outputPath" location, \n while the report (and the css file) will be saved in the working directory.'))
+#	differentWd <- outputPath != outputPathCompare
+#	
+#	if(differentWd) warning(paste0('The specified "outputPath" (i.e. ', outputPath,') is NOT the same \n as the current working directory (i.e. ', outputPathCompare, '). \n', 
+#		'The graphs and objects will be saved in the "outputPath" location, \n while the report (and the css file) will be saved in the working directory.'))
 	
 ```
 
@@ -44,7 +58,7 @@
 
 #	message("output path css: ", paste0(getwd(), "/css"))
 
-	if(!exists("personalCss")) personalCss <- FALSE
+	if(!exists("personalCss", where = environment())) personalCss <- FALSE
 	
 	if(!personalCss){
 		cssFile <- getPathFile("custom.css")
@@ -56,19 +70,6 @@
 	}
   
     message(". Section Material and methods")
-
-```
-
-
-```{r outputDirectories}
-	
-	outputPathGraph <- paste0(outputPath, "graphs")
-	if (!file.exists(outputPathGraph)) dir.create(outputPathGraph, recursive = TRUE)
-	myGraphPath <- function(pathPlot){paste(outputPathGraph, pathPlot, sep = "/")}
-	
-	outputPathObjects <- paste0(outputPath, "objects")
-	if (!file.exists(outputPathObjects)) dir.create(outputPathObjects, recursive = TRUE)
-	myObjectPath <- function(pathObject){paste(outputPathObjects, pathObject, sep = "/")}
 
 ```
 
@@ -160,12 +161,12 @@ Tables below show overall statistics of `r toString(variables)` for:
 
 ```
 
-`r if(boxPlot)	"# Histogram"`
+`r if(histogram)	"# Histogram"`
+
+`r if(histogram)	paste("Note: we removed the '.' from the character since otherwise bookdown does not return figure numbers.")`
 
 <!-- Via child documents using a character. -->
 
-Note: we removed the '.' from the character since otherwise bookdown does not
-return figure numbers.
 
 ```{r histogram-viaLoopOnChildDocumentCharacter, eval = histogram}
 
@@ -200,12 +201,12 @@ return figure numbers.
 
 ```
 
-`r if(pairwiseComparisonPlot)	"# Pairwise comparison plot"`
+`r if(pairwiseComparison)	"# Pairwise comparison plot"`
 
-`r if(pairwiseComparisonPlot) 
+`r if(pairwiseComparison) 
 	"## Summary\nFollowing Figure shows the correlation matrix of all variables contained in the data."`
 
-```{r pairwiseComparison-summary, eval = pairwiseComparisonPlot}
+```{r pairwiseComparison-summary, eval = pairwiseComparison}
 
 	library(corrplot)
 	inputCorrplot <- cor(dataset[, variables])
@@ -213,7 +214,7 @@ return figure numbers.
 
 ```
  
-```{r pairwiseComparisonPlots-viaLoopOnChildDocumentInteger, eval = pairwiseComparisonPlot}
+```{r pairwiseComparisonPlots-viaLoopOnChildDocumentInteger, eval = pairwiseComparison}
  
     message(". Section pairwise comparison - via loop on plots")
     message(".. Pairwise comparison plots via child documents using an integer")

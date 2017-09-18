@@ -5,10 +5,10 @@
 	
 	pairwiseComparisonVariable <- pairwiseComparisonVariables[, {{iPC}}] # variables to compare
 		
-	colorVariable <- if(exists("pairwiseComparisonPlotColorVariable"))
+	colorVariable <- if(exists("pairwiseComparisonPlotColorVariable", where = environment()))
 		pairwiseComparisonPlotColorVariable # variable used for coloring
 	
-	if(!exists("typePlot"))	typePlot <- "rbokeh" # type plot
+	if(!exists("typePlot", where = environment()))	typePlot <- "rbokeh" # type plot
 	
 	message("Creation of pairwise comparison plot of ", pairwiseComparisonVariablesDescription, ".")
 
@@ -36,7 +36,7 @@ The **_Pearson_ correlation** between the
 	library(oaColors)
 	colorPalette <- oaPalette(
 		numColors = ifelse(!is.null(colorVariable), nlevels(dataset[, colorVariable]), 1))
-	names(colorPalette) <- levels(dataset[, colorVariable])
+	names(colorPalette) <- if(!is.null(colorVariable))	levels(dataset[, colorVariable])	else	"all points"
 
 	figCaption <-  paste("Pairwise comparison of", pairwiseComparisonVariablesDescription)
 	

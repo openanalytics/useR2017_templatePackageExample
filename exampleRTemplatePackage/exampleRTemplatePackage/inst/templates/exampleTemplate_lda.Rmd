@@ -3,7 +3,7 @@
 
     message(". Section linear discriminant analysis")
 
-	if(!exists("covariateLda"))	
+	if(!exists("covariateLda", where = environment()))	
 		stop("'The covariate used for the linear discriminant analysis should",
 			" be specified via the 'covariateLda' parameter'.")
 

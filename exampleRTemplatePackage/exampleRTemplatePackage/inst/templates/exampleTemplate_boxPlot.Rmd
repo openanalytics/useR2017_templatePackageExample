@@ -8,7 +8,7 @@ INPUT PARAMETERS
 
     dataBoxPlot <- dataset[dataset[,covariate] == boxPlotVariable, ]
   
-    colorBP <- if(exists("boxPlotColorVariables")) boxPlotColorVariables	else	NULL
+    colorBP <- if(exists("boxPlotColorVariables", where = environment())) boxPlotColorVariables	else	NULL
     
 	message("Creation of box plot of ", boxPlotVariable, ".")  
   

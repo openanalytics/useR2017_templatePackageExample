@@ -1,0 +1,102 @@
+---
+title: "Analysis of the `r params$datasetName` dataset"
+author: "Laure Cougnaud, Kirsten Van Hoorde, OpenAnalytics"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  bookdown::html_document2:
+    css: css/custom.css
+    toc: true
+    toc_depth: 4
+    number_sections: true
+    toc_float:
+      collapsed: true
+---
+
+
+<!---
+Copy this template in your working directory (where you want to run the report).
+You can make use of the function getPathStartTemplate(). 
+
+This template can be used as a starting document for any new dataset
+-->
+
+```{r copyStartTemplate, echo = FALSE, eval = FALSE}
+
+	# copy start template to working directory
+	library(exampleRTemplatePackage)
+	file.copy(from = getPathStartTemplate(), to = "./")
+
+```
+
+```{r runDocument, echo = FALSE, eval = FALSE}
+
+	## This chunk contains code to render the document.
+
+	rm(list = ls())
+	detach('package:exampleRTemplatePackage', unload = TRUE);library(exampleReportingPackage)
+	system.time(rmarkdown::render("startTemplate.Rmd"))
+	
+```
+
+```{r optionsChunk, echo = FALSE, message = FALSE, warning=FALSE}
+
+	## Chunk with options for knitr. This chunk should not be modified.
+
+	knitr::opts_chunk$set(
+		eval = TRUE,
+		echo = FALSE, 
+		message = FALSE,
+		cache = FALSE,
+		warning = FALSE,
+		error = FALSE,
+		comment = "#",
+	  	tidy = FALSE,
+		collapse = TRUE,
+		results = "asis",
+		root.dir = params$outputPath
+	)
+	knitr::opts_knit$set(
+		root.dir = getwd())
+	
+	options(warn = 1, width = 200)
+	
+```
+
+```{r requiredLibraries}
+
+	library(bookdown)
+
+```
+
+<!-- Loading the package with the child templates and functions for the creation of this report. -->
+
+```{r libraries}
+
+	library(knitr)
+	
+	# load R template package
+	library(exampleRTemplatePackage)
+
+```
+
+```{r inputParameters-data}
+
+	dataset <- params$dataset
+	variables <- params$variables
+	covariate <- params$covariate
+	
+	boxPlot <- params$boxPlot
+	histogram <- params$histogram
+	pairwiseComparison <- params$pairwiseComparison
+	typePlot <- params$typePlot
+	
+	includeLda <- params$includeLda
+	
+	outputPath <- params$outputPath
+	
+```
+
+<!-- call/run child template with the analysis, contained in the `exampleReportingPackage` package-->
+```{r runAnalysis, child = getPathTemplate("exampleTemplate_child.Rmd")}
+
+```
