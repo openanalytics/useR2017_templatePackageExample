@@ -7,7 +7,7 @@ Author: Laure Cougnaud, Kirsten van Hoorde
 Maintainer: Laure Cougnaud <laure.cougnaud@openanalytics.eu>, Kirsten van
     Hoorde<kirsten.vanhoorde@openanalytics.eu>
 Description: exampleRTemplatePackage is an example of R template package, i.e. R package containing report templates.
-License: GPL-3
+License: GPL-3 + file LICENSE
 Suggests:
     plotly,
 	rbokeh,
