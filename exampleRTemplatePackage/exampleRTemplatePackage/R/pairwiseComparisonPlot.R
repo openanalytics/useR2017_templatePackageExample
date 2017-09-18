@@ -77,8 +77,8 @@ pairwiseComparisonPlot <- function(
 			 x = variables[1],  
 			 y = variables[2],
 			 # currently cannot specify an aesthetic and palette in rbokeh
-			 color = color
-#			 hoover = dataset
+			 color = color#,
+#			 hoover = paste(paste0("@", colnames(dataset)[1]), collapse = "\n")
 		)
 	 
  	}

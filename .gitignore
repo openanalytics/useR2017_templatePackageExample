@@ -5,3 +5,5 @@ exampleRTemplatePackage/wd/*/*.html
 exampleRTemplatePackage/wd/*/output
 exampleRTemplatePackage/wd/*/css
 /exampleRTemplatePackage/wd/start/startTemplate.Rmd
+*.html
+*.png
