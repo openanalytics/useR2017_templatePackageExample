@@ -94,6 +94,8 @@ This template can be used as a starting document for any new dataset
 	
 	outputPath <- params$outputPath
 	
+	formatOutput <- params$formatOutput
+	
 ```
 
 <!-- call/run child template with the analysis, contained in the `exampleReportingPackage` package-->

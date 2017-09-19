@@ -2,6 +2,8 @@
 
 ```{r parametersChildDocument}
 
+	library(pander)
+
 	## required input parameters
     message("Check required input parameters")
 
@@ -85,15 +87,20 @@ and `r length(covariate)` covariate: `r toString(covariate)`.
 
     message(".. Data table")
 
-	library(DT)
-	
-	datatable(dataset, 
-		options = list(
-		searching = TRUE,
-		pageLength = 10
-#		lengthMenu = c(5, 10, 15, 20)
-		),
-		rownames = FALSE
+	switch(formatOutput,
+		'html' = {
+			library(DT)
+			
+			datatable(dataset, 
+				options = list(
+				searching = TRUE,
+				pageLength = 10
+		#		lengthMenu = c(5, 10, 15, 20)
+				),
+				rownames = FALSE
+			)
+		},
+		'pdf' = pander(dataset)
 	)
 	
 ```
@@ -102,7 +109,7 @@ and `r length(covariate)` covariate: `r toString(covariate)`.
 
 Tables below show overall statistics of `r toString(variables)` for:
 
-*  the entire dataset
+* the entire dataset
 * the variables for each subset of the `r paste0("'", covariate, "'")`
   covariate:
 `r paste(paste("    +", levels(dataset[,covariate])), collapse = "\n")`

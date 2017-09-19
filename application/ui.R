@@ -52,6 +52,8 @@ shinyUI(
 			),
 			
 			h2("Reporting"),
+#			selectInput("formatOutput", "Output format", c("pdf", "html")),
+			
 			# call module
 			runReportShinyUI(id = "analysis", labelReport = "analysis")
 	

@@ -51,7 +51,8 @@ runReportShiny <- function(input, output, session,
 	){
 		
 	outputReportName <- reactive(
-		paste0(outputDir, "analysisDataset-", gsub(" ", "", paramsUI()$dataset), ".html")
+		paste0(outputDir, "analysisDataset-", gsub(" ", "", paramsUI()$dataset), ".",
+			"html")
 	)
 
 	output$reportCreated <- reactive(FALSE)
@@ -75,6 +76,7 @@ runReportShiny <- function(input, output, session,
 			params$variables <- variables()
 			params$covariate <- covariate()
 			params$outputPath <- outputDir
+			params$formatOutput <- "html"
 			
 #				# clean results previous execution
 #				filesAlreadyPresent <- list.files(outputDir(), full.names = TRUE)
@@ -105,15 +107,35 @@ runReportShiny <- function(input, output, session,
 					# copy start template
 					file.copy(from = pathQC, to = pathOutput, overwrite = TRUE)
 					
+#					outputOptions <- list(
+#						'toc' = TRUE,
+#						'toc_depth' = 4,
+#						'number_sections' = TRUE#,
+##						'always_allow_html' = TRUE
+#					)
+#					
+##					if(paramsUI()$formatOutput == "html")
+#						outputOptions <- c(outputOptions,
+#							list('css' = "css/custom.css",
+#							'toc_float' = TRUE)
+#						)
+					
 					# run template
+					library(bookdown)
 					potentialErrorMessage <- try(
 						res <- rmarkdown::render(
 							input = pathOutput, 
 							output_file = outputReportName(), 
 							params = params,
-							envir = new.env()
+							envir = new.env(),
+#							output_format = switch(
+#								paramsUI()$formatOutput, 
+#								'html' = "html_document2", 
+#								'pdf' = "pdf_document2"
+#							),
+#							output_options = outputOptions
 						)
-						, silent = TRUE)
+					, silent = TRUE)
 					
 				}
 		

@@ -44,11 +44,12 @@ paste(colnames(dataset)[colnames(dataset) != covariateLda], collapse = " + "),
 	colorPaletteHex <- do.call(rgb, as.list(as.data.frame(t(col2rgb(colorPalette)/255))))
 	
 	# code html list in R (don't forget line break before the list!) with colors
-	cat("Following Figure shows the lda biplot, with the following palette:\n\n")
-	cat(
-		paste(paste0("* <font color='", colorPaletteHex,"'>", names(colorPalette), "</font>"),
-			collapse = "\n")
-	)
+	if(formatOutput == "html")
+		cat("Following Figure shows the lda biplot, with the following palette:\n\n")
+		cat(
+			paste(paste0("* <font color='", colorPaletteHex,"'>", names(colorPalette), "</font>"),
+				collapse = "\n")
+		)
 		
 	# scatterplot of lda results
 	plot(resLda, dimen = 2,
@@ -69,11 +70,15 @@ paste(colnames(dataset)[colnames(dataset) != covariateLda], collapse = " + "),
 	# use pander table to print details (can use list as input)
 	library(pander)
 	# create drop-down box with details of the results
-	tmp <- collapseInHtml(
-		input = pander(resLdaDetails), 
-		id = "resultsLda", 
-		titleButton = "Details on the results of the linear discriminant analysis", 
-		type = "text", color = "#0e1e29", borderColor = "#0e1e29")
+	switch(formatOutput,
+		'html' = 
+			tmp <- collapseInHtml(
+				input = pander(resLdaDetails), 
+				id = "resultsLda", 
+				titleButton = "Details on the results of the linear discriminant analysis", 
+				type = "text", color = "#0e1e29", borderColor = "#0e1e29"),
+		'pdf' = pander(resLdaDetails)
+	)
 
 
 ```
