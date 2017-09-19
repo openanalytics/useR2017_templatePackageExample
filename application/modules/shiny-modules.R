@@ -16,7 +16,7 @@ runReportShinyUI <- function(id, labelReport){
 		actionButton(
 			ns("createReport"), 
 			label = paste("Create", labelReport, "report"), 
-			style = "background-color: #d6f5f5"
+			style = "background-color: #32a6d3"
 		),
 		uiOutput(ns("progressMessageReport")),
 		br(),
@@ -25,7 +25,7 @@ runReportShinyUI <- function(id, labelReport){
 			downloadButton(
 				ns("getReport"), 
 				label = paste("Get", labelReport, "Report"),
-				style = "background-color: #b3e6ff"
+				style = "background-color: #e6e6e6"
 			)
 		)
 	)
