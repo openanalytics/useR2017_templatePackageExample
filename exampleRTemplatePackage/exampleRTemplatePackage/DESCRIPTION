@@ -1,8 +1,8 @@
 Package: exampleRTemplatePackage
 Type: Package
 Title: Example of R template package
-Version: 0.0-1
-Date: 2017-06-23
+Version: 0.0-2
+Date: 2018-04-06
 Author: Laure Cougnaud, Kirsten van Hoorde
 Maintainer: Laure Cougnaud <laure.cougnaud@openanalytics.eu>, Kirsten van
     Hoorde<kirsten.vanhoorde@openanalytics.eu>
@@ -19,4 +19,4 @@ Suggests:
 	corrplot,
 	BiocInstaller,
 	ggplot2
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000

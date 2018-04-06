@@ -38,6 +38,8 @@
 	if(includeLda & !exists("covariateLda", where = environment())) covariateLda <- covariate
 	if(!exists("typePlot", where = environment()))	typePlot <- "rbokeh"
 	
+	if(!exists("formatOutput", where = environment())) formatOutput <- "html"
+	
 ```
 
 ```{r compareOutputpathWithWd}
